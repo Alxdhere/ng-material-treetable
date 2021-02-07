@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Node, SearchableNode, NodeInTree } from '../../models';
 import { cloneDeep } from 'lodash-es';
 import { Option, some, none } from 'fp-ts/lib/Option';
+import { fold } from "fp-ts/lib/Either"
 
 @Injectable({
   providedIn: 'root'
