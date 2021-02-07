@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Node, SearchableNode, NodeInTree } from '../../models';
 import { cloneDeep } from 'lodash-es';
-import { Option, some, none } from 'fp-ts/lib/Option';
-import { fold } from "fp-ts/lib/Either"
+import { Option, some, none, fold } from 'fp-ts/lib/Option';
+import {pipe} from "fp-ts/pipeable";
 
 @Injectable({
   providedIn: 'root'
@@ -67,7 +67,10 @@ export class TreeService {
    * @param node the node we want to calculate the depth of
    */
   getNodeDepth<T, K extends SearchableNode<T>>(root: K, node: K): number {
-    return this.searchById(root, node.id).fold(-1, n => n.pathToRoot.length);
+    return pipe(
+      this.searchById(root, node.id),
+      fold(() => -1, n => n.pathToRoot.length)
+    ).valueOf();
   }
 
   /**
