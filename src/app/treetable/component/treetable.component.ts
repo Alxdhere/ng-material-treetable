@@ -6,8 +6,10 @@ import { ValidatorService } from '../services/validator/validator.service';
 import { ConverterService } from '../services/converter/converter.service';
 import { defaultOptions } from '../default.options';
 import { flatMap, defaults } from 'lodash-es';
-import { fold } from "fp-ts/lib/Either"
 import { Subject } from 'rxjs';
+import { fold } from "fp-ts/lib/Option"
+import {pipe} from "fp-ts/pipeable";
+import {every} from "fp-ts/Array";
 
 @Component({
   selector: 'ng-treetable, treetable', // 'ng-treetable' is currently being deprecated
@@ -73,9 +75,10 @@ export class TreetableComponent<T> implements OnInit {
     clickedNode.isExpanded = !clickedNode.isExpanded;
     this.treeTable.forEach(el => {
       el.isVisible = this.searchableTree.every(st => {
-        return this.treeService.searchById(st, el.id).
-          fold([], n => n.pathToRoot)
-          .every(p => this.treeTable.find(x => x.id === p.id).isExpanded);
+        return pipe(
+          this.treeTableService.searchById(st, el.id),
+          fold(() => [], n => n.pathToRoot),
+          every(p => this.treeTable.find(x => x.id === p.id).isExpanded));
       });
     });
     this.dataSource = this.generateDataSource();
