@@ -6,6 +6,7 @@ import { ValidatorService } from '../services/validator/validator.service';
 import { ConverterService } from '../services/converter/converter.service';
 import { defaultOptions } from '../default.options';
 import { flatMap, defaults } from 'lodash-es';
+import { fold } from "fp-ts/lib/Either"
 import { Subject } from 'rxjs';
 
 @Component({
