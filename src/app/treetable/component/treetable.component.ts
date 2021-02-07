@@ -1,12 +1,11 @@
 import { Component, OnInit, Input, Output, ElementRef } from '@angular/core';
 import { Node, TreeTableNode, Options, SearchableNode } from '../models';
 import { TreeService } from '../services/tree/tree.service';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { ValidatorService } from '../services/validator/validator.service';
 import { ConverterService } from '../services/converter/converter.service';
 import { defaultOptions } from '../default.options';
 import { flatMap, defaults } from 'lodash-es';
-import { Required } from '../decorators/required.decorator';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -15,7 +14,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./treetable.component.scss']
 })
 export class TreetableComponent<T> implements OnInit {
-  @Input() @Required tree: Node<T> | Node<T>[];
+  @Input() tree: Node<T> | Node<T>[];
   @Input() options: Options<T> = {};
   @Output() nodeClicked: Subject<TreeTableNode<T>> = new Subject();
   private searchableTree: SearchableNode<T>[];
